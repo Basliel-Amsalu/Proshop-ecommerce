@@ -2,9 +2,19 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import User from "../models/userModel.js";
 
 export const authUser = asyncHandler(async (req, res) => {
-  //   const users = await User.find();
-  //   res.status(200).json(products);
-  res.send("auth user");
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (user && (await user.matchPassword(password))) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmon: user.isAdmin,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid Email or password");
+  }
 });
 
 export const registerUser = asyncHandler(async (req, res) => {
@@ -28,12 +38,12 @@ export const getUsers = asyncHandler(async (req, res) => {
 });
 
 export const getUserById = asyncHandler(async (req, res) => {
-  res.send("get users");
+  res.send("get user by id");
 });
 
+export const updateUser = asyncHandler(async (req, res) => {
+  res.send("update user");
+});
 export const deleteUser = asyncHandler(async (req, res) => {
-  res.send("delete users");
+  res.send("delete user");
 });
-
-
-
