@@ -107,7 +107,7 @@ export const updateUser = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 export const deleteUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(re.params.id);
+  const user = await User.findById(req.params.id);
 
   if (user) {
     if (user.isAdmin) {

@@ -83,7 +83,7 @@ const ProductEditScreen = () => {
 
   return (
     <>
-      <Link className='btn btn-light my-3' to={"/"}>
+      <Link className='btn btn-light my-3' to={"/admin/productlist"}>
         Go Back
       </Link>
       <FormContainer>
@@ -104,7 +104,7 @@ const ProductEditScreen = () => {
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            <Form.Group className='my-3' controlId='email'>
+            <Form.Group className='my-3' controlId='price'>
               <Form.Label>Price</Form.Label>
               <Form.Control
                 type='text'
