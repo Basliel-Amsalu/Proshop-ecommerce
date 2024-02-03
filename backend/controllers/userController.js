@@ -85,16 +85,40 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 export const getUsers = asyncHandler(async (req, res) => {
-  res.send("get users");
+  const users = await User.find({});
+  res.status(200).json(users);
 });
 
 export const getUserById = asyncHandler(async (req, res) => {
-  res.send("get user by id");
+  const user = await User.findById(req.params.id).select("-password");
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
 });
 
 export const updateUser = asyncHandler(async (req, res) => {
-  res.send("update user");
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  }).select("-password");
+
+  res.status(200).json(user);
 });
 export const deleteUser = asyncHandler(async (req, res) => {
-  res.send("delete user");
+  const user = await User.findById(re.params.id);
+
+  if (user) {
+    if (user.isAdmin) {
+      res.status(400);
+      throw new Error("Cannot delete admin user");
+    } else {
+      await User.findByIdAndDelete(req.params.id);
+      res.status(200).json({ message: "deleted successfully" });
+    }
+  } else {
+    res.status(400);
+    throw new Error("User not found");
+  }
 });
